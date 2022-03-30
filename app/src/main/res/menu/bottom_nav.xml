@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/dashboardFragment"
+        android:icon="@drawable/ic_dashboard"
+        android:title="Dashboard" />
+    <item
+        android:id="@+id/productosFragment"
+        android:icon="@drawable/ic_shoe_formal"
+        android:title="Productos" />
+    <item
+        android:id="@+id/escanerFragment"
+        android:icon="@drawable/ic_qr_code_scanner"
+        android:title="Escaner" />
+
+</menu>
