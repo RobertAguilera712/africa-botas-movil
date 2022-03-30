@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.cloudymind.africabotas.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/productosFragment"
+        android:name="com.cloudymind.africabotas.ProductosFragment"
+        android:label="fragment_productos"
+        tools:layout="@layout/fragment_productos" />
+    <fragment
+        android:id="@+id/escanerFragment"
+        android:name="com.cloudymind.africabotas.EscanerFragment"
+        android:label="fragment_escaner"
+        tools:layout="@layout/fragment_escaner" />
+</navigation>
