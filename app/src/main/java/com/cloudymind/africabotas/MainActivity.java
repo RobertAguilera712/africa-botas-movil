@@ -66,11 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         if (response.body() != null) {
                             RespuestaLogin respuesta = response.body();
                             evaluarRespuesta(respuesta);
-                        }else{
-                            Toast.makeText(getApplicationContext(), "BODY IS NULL", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
-                        Toast.makeText(getApplicationContext(), "UNSUCCESSFUL RESPONSE", Toast.LENGTH_SHORT).show();
                     }
                     Log.d("LOGIN", response.toString());
                     Log.d("MESSAGE", response.message());
@@ -100,27 +96,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void evaluarRespuesta(RespuestaLogin respuesta){
-        String mensaje;
         switch (respuesta.getCode()) {
             case 0:
-                mensaje = "USUARIO INEXISTENTE";
                 binding.txtUsuario.setError("El usuario no existe");
                 break;
             case 1:
                 Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
                 intent.putExtra("USUARIO", respuesta.getEmpleado().getUsuario().getUsuario());
                 startActivity(intent);
-                mensaje = "ACCESO CONCEDIDO";
                 break;
             case 2:
-                mensaje = "ACCESO DENEGADO";
                 binding.txtPassword.setError("Contraseña incorrecta");
                 break;
             default:
-                mensaje = "";
                 break;
         }
-        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
     }
 
 }

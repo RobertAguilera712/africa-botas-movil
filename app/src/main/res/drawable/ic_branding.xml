@@ -2,19 +2,8 @@
     android:width="500dp"
     android:height="500dp"
     android:viewportWidth="375"
+    android:tint="?attr/colorControlNormal"
     android:viewportHeight="375">
-  <path
-      android:pathData="M-37.5,-37.5h450v450h-450z"
-      android:fillColor="#FFFFFF"/>
-  <path
-      android:pathData="M-37.5,-37.5h450v450h-450z"
-      android:fillColor="#E4D6C0"/>
-  <path
-      android:pathData="M-37.5,-37.5h450v450h-450z"
-      android:fillColor="#FFFFFF"/>
-  <path
-      android:pathData="M-37.5,-37.5h450v450h-450z"
-      android:fillColor="#E4D6C0"/>
   <group>
     <clip-path
         android:pathData="M90,114.5L285,114.5L285,278.75L90,278.75ZM90,114.5"/>
