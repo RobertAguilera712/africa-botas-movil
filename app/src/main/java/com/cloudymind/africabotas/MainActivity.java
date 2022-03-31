@@ -2,6 +2,7 @@ package com.cloudymind.africabotas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private void login() {
         if (checkInputs()) {
             String usuario = binding.txtUsuario.getEditText().getText().toString();
-            String password = binding.txtUsuario.getEditText().getText().toString();
+            String password = binding.txtPassword.getEditText().getText().toString();
 
             Login login = retrofit.create(Login.class);
             Call<RespuestaLogin> call = login.login(usuario, password);
@@ -64,22 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.code() == 200) {
                         if (response.body() != null) {
                             RespuestaLogin respuesta = response.body();
-                            String mensaje;
-                            switch (respuesta.getCode()) {
-                                case 0:
-                                    mensaje = "USUARIO INEXISTENTE";
-                                    break;
-                                case 1:
-                                    mensaje = "ACCESO CONCEDIDO";
-                                    break;
-                                case 2:
-                                    mensaje = "ACCESO DENEGADO";
-                                    break;
-                                default:
-                                    mensaje = "";
-                                    break;
-                            }
-                            Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+                            evaluarRespuesta(respuesta);
                         }else{
                             Toast.makeText(getApplicationContext(), "BODY IS NULL", Toast.LENGTH_SHORT).show();
                         }
@@ -111,6 +97,30 @@ public class MainActivity extends AppCompatActivity {
             binding.txtPassword.setError("Debes de llenar el password");
         }
         return usuarioFilled && passwordFilled;
+    }
+
+    private void evaluarRespuesta(RespuestaLogin respuesta){
+        String mensaje;
+        switch (respuesta.getCode()) {
+            case 0:
+                mensaje = "USUARIO INEXISTENTE";
+                binding.txtUsuario.setError("El usuario no existe");
+                break;
+            case 1:
+                Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+                intent.putExtra("USUARIO", respuesta.getEmpleado().getUsuario().getUsuario());
+                startActivity(intent);
+                mensaje = "ACCESO CONCEDIDO";
+                break;
+            case 2:
+                mensaje = "ACCESO DENEGADO";
+                binding.txtPassword.setError("Contraseña incorrecta");
+                break;
+            default:
+                mensaje = "";
+                break;
+        }
+        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
     }
 
 }
