@@ -75,7 +75,7 @@ public class Producto {
     }
 
     public void setUrlFoto(){
-        this.urlFoto = String.format("http://192.168.1.71:5000/static/img-productos/%s", nombreFoto);
+        this.urlFoto = String.format("https://africa-botas.herokuapp.com/static/img-productos/%s", nombreFoto);
     }
 
     public ArrayList<Stock> getStock() {
