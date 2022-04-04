@@ -1,5 +1,6 @@
 package com.cloudymind.africabotas;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,21 +9,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cloudymind.africabotas.databinding.CardProductoBinding;
 import com.cloudymind.africabotas.model.Producto;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
-    private final ArrayList<Producto> productos;
+    public interface OnClickCallback {
+        void onItemClick(int position);
+    }
 
-    public RecyclerViewAdapter(ArrayList<Producto> productos) {
+    private final ArrayList<Producto> productos;
+    private final OnClickCallback onClickCallback;
+
+    public RecyclerViewAdapter(ArrayList<Producto> productos, OnClickCallback onClickCallback) {
         this.productos = productos;
+        this.onClickCallback = onClickCallback;
     }
 
     @NonNull
     @Override
     public RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(CardProductoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new MyViewHolder(CardProductoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), onClickCallback);
     }
 
     @Override
@@ -32,6 +40,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.binding.txtPrecio.setText(String.valueOf(producto.getPrecio()));
         holder.binding.txtMarca.setText(producto.getMarca());
         holder.binding.txtModelo.setText(producto.getModelo());
+        producto.setUrlFoto();
+        Picasso.get().load(producto.getUrlFoto()).into(holder.binding.imvFoto);
     }
 
     @Override
@@ -43,9 +53,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         private CardProductoBinding binding;
 
-        public MyViewHolder(CardProductoBinding binding) {
+        public MyViewHolder(CardProductoBinding binding, OnClickCallback clickCallback) {
             super(binding.getRoot());
             this.binding = binding;
+            this.binding.getRoot().setOnClickListener(v -> {
+                if (clickCallback != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        clickCallback.onItemClick(position);
+                    }
+                }
+            });
         }
     }
 }

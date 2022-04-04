@@ -26,7 +26,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         dashboardFragment = new DashboardFragment(usuario);
         productosFragment = new ProductosFragment();
-        escanerFragment = new EscanerFragment();
+        escanerFragment = new EscanerFragment(binding.bottomNavigationView);
 
         replaceFragment(dashboardFragment);
 
@@ -44,5 +44,16 @@ public class DashboardActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment f = fragmentManager.findFragmentById(R.id.frameLayout);
+        if (f instanceof DetalleProductoFragment){
+            replaceFragment(productosFragment);
+        }else {
+            super.onBackPressed();
+        }
     }
 }

@@ -30,7 +30,7 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
-        binding.txtUsuario.setText(usuario);
+        binding.txtUsuario.setText(String.format("Bienvenido %s", usuario));
         return binding.getRoot();
     }
 }

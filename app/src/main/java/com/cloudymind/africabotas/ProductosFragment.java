@@ -3,6 +3,8 @@ package com.cloudymind.africabotas;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,7 +59,13 @@ public class ProductosFragment extends Fragment {
     private void initAdapter(){
         productos = new ArrayList<>();
         mlaLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new RecyclerViewAdapter(productos);
+        mAdapter = new RecyclerViewAdapter(productos, (int position) -> {
+            Producto producto = productos.get(position);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, new DetalleProductoFragment(producto));
+            fragmentTransaction.commit();
+        });
         binding.recyclerView.setLayoutManager(mlaLayoutManager);
         binding.recyclerView.setAdapter(mAdapter);
     }
@@ -90,6 +98,7 @@ public class ProductosFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Producto>> call, Throwable t) {
+                Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
